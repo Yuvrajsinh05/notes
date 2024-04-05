@@ -138,3 +138,62 @@ The difference between deep copy and shallow copy lies in how they handle copyin
 - Deep copy doesn’t reflect changes made to the new/copied object in the original object.
 - Deep copy stores the copy of the original object and recursively copies the objects as well.
 - Deep copy is comparatively slower.
+
+
+
+# Pillars of OOPs
+
+## Q21 What is Encapsulation in C++? Why is it called Data hiding?
+
+Encapsulation in C++ refers to the process of binding data and corresponding methods (behavior) into a single unit. In other words, encapsulation is a programming technique that binds the class members (variables and methods) together and prevents them from being accessed by other classes. This technique keeps variables and methods safe from outside interference and misuse.
+
+If a field is declared private in the class, it cannot be accessed by anyone outside the class, thereby hiding the fields. Therefore, encapsulation is also referred to as data hiding.
+
+## Q22 What is the difference between Abstraction and Encapsulation?
+
+### Abstraction
+- Abstraction is the method of hiding unnecessary details from the necessary ones.
+- Achieved through encapsulation.
+- Abstraction allows you to focus on what the object does instead of how it does it.
+- In abstraction, problems are solved at the design or interface level.
+
+### Encapsulation
+- Encapsulation is the process of binding data members and methods of a program together to perform a specific job without revealing unnecessary details.
+- You can implement encapsulation using Access Modifiers (Public, Protected & Private).
+- Encapsulation enables you to hide the code and data into a single unit to secure the data from the outside world.
+- Problems are solved at the implementation level.
+
+## Q23 How much memory does a class occupy?
+
+Classes do not consume any memory. They are merely blueprints based on which objects are created. When objects are created, they initialize the class members and methods, thereby consuming memory.
+
+## Q24 Are there any limitations of Inheritance?
+
+Yes, there are limitations to inheritance. While it is a powerful feature in Object-Oriented Programming (OOP), it comes with complexities. Inheritance may require more processing time as it navigates through multiple classes for its implementation. Also, the classes involved in inheritance are tightly coupled, meaning changes in one class may necessitate changes in related classes. Incorrect implementation of inheritance can lead to unexpected errors or incorrect outputs.
+
+## Q25 What is the difference between overloading and overriding?
+
+Overloading is a compile-time polymorphism feature where an entity has multiple implementations with the same name, such as Method overloading and Operator overloading.
+
+Overriding is a runtime polymorphism feature where an entity has the same name, but its implementation changes during execution, such as Method overriding.
+
+## Q26 What are the various types of inheritance?
+
+The various types of inheritance include:
+- Single inheritance
+- Multiple inheritances
+- Multi-level inheritance
+- Hierarchical inheritance
+- Hybrid inheritance
+
+## Q27 What are the advantages of Polymorphism?
+
+There are several advantages of polymorphism in C++:
+- Achieving flexibility in code by performing various operations using methods with the same names according to requirements.
+- Providing implementation to an abstract base class or an interface.
+
+## Q28 What are the differences between Polymorphism and Inheritance in C++?
+
+a. Inheritance represents the parent-child relationship between two classes. Polymorphism takes advantage of this relationship to make the program more dynamic.
+b. Inheritance facilitates code reusability in child classes by inheriting behavior from the parent class, while polymorphism enables child classes to redefine already defined behavior inside the parent class. Without polymorphism, a child class can’t execute its own behavior.
+
