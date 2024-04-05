@@ -194,6 +194,7 @@ There are several advantages of polymorphism in C++:
 
 ## Q28 What are the differences between Polymorphism and Inheritance in C++?
 
-a. Inheritance represents the parent-child relationship between two classes. Polymorphism takes advantage of this relationship to make the program more dynamic.
-b. Inheritance facilitates code reusability in child classes by inheriting behavior from the parent class, while polymorphism enables child classes to redefine already defined behavior inside the parent class. Without polymorphism, a child class can’t execute its own behavior.
+- Inheritance represents the parent-child relationship between two classes. Polymorphism takes advantage of this relationship to make the program more dynamic.
+- Inheritance facilitates code reusability in child classes by inheriting behavior from the parent class, while polymorphism enables child classes to redefine already defined behavior inside the parent class. Without polymorphism, a child class can’t execute its own behavior.
+
 
