@@ -197,6 +197,59 @@ There are several advantages of polymorphism in C++:
 - Inheritance represents the parent-child relationship between two classes. Polymorphism takes advantage of this relationship to make the program more dynamic.
 - Inheritance facilitates code reusability in child classes by inheriting behavior from the parent class, while polymorphism enables child classes to redefine already defined behavior inside the parent class. Without polymorphism, a child class can’t execute its own behavior.
 
+
+## Q29. Does every virtual function need to be always overridden?
+   - No, It is not always mandatory to redefine a virtual function. It can be used as it is in the base class.
+
+## Q30. What is an abstract class?
+   - An abstract class is a class that has at least one pure virtual function in its definition. An abstract class can never be instanced (creating an object). It can only be inherited, and the methods could be overwritten.
+
+## Q31. Can we have a constructor as Virtual?
+   - Constructors cannot be virtual because they need to be defined in the class.
+
+## Q32. What is a pure virtual function?
+   - A pure virtual function (or abstract function) in C++ is a virtual function for which we don’t have an implementation. We only declare it. A pure virtual function is declared by assigning 0 in the declaration. See the following example.
+
+## Q33. What are the characteristics of Friend Function?
+   - A friend function is not in the scope of the class, in which it has been declared as friend.
+   - It cannot be called using the object of that class.
+   - It can be invoked like a normal function without any object.
+   - Unlike member functions, it cannot use the member names directly.
+   - It can be declared in public or private parts without affecting its meaning.
+   - Usually, it has objects as arguments.
+
+## Q34. What is the output of this program?
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Box {
+    double width;
+public:
+    friend void printWidth( Box box );
+    void setWidth( double wid );
+};
+
+void Box::setWidth( double wid ) {
+    width = wid;
+}
+
+void printWidth( Box box ) {
+    box.width = box.width * 2;
+    cout << "Width of box : " << box.width << endl;
+}
+
+int main() {
+    Box box;
+    box.setWidth(10.0);
+    printWidth( box );
+    return 0;
+}
+```
+
+
+
 ## Problem Statement 
 
 ### Question : 1 (Complex Number Class)
@@ -512,7 +565,6 @@ int main() {
     return 0;
 }
 ```
-## Problem Statement
 
 ## Question : 3 (Fraction Class)
 
@@ -605,7 +657,7 @@ int main() {
     return 0;
 }
 ```
-## Problem Statement
+
 
 ## Question 4 (Print Name and Age)
 
@@ -655,7 +707,7 @@ int main() {
 ```
 
 
-## Problem Statement
+
 
 ## Question 5 ( Area of a Rectangle)
 
