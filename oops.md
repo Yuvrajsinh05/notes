@@ -280,7 +280,7 @@ int main() {
 }
 ```
 
-### ### Question : 2 (Polynomial Class)
+### Question : 2 (Polynomial Class)
 
 Implement a polynomial class with the following properties and functions:
 
@@ -297,6 +297,8 @@ Implement a polynomial class with the following properties and functions:
 6. **Overload "*" operator** (`P3 = P1 * P2`): Multiplies two polynomials and returns a new polynomial which has the result.
 7. **Overload "=" operator (Copy assignment operator)**: Assigns all values of one polynomial to another.
 8. **print()**: Prints all the terms (only terms with non-zero coefficients are to be printed) in increasing order of degree. Print pattern for a single term: `<coefficient>"x"<degree>`. Multiple terms should be printed separated by space. After printing one polynomial, print a new line. For more clarity, refer to sample test cases.
+
+## Answer
 
 ```cpp
 #include<iostream>
@@ -530,6 +532,8 @@ Implement a Fraction Class with the following properties and functions:
    - e.g., if `f1 = 5/20`, which can be further simplified as `1/4`, `simplify` will perform this.
 5. **print()**: Prints the final answer in the numerator/denominator form.
 
+## Answer
+
 ```cpp
 #include <iostream>
 #include <algorithm>
@@ -611,6 +615,7 @@ Create a class named `Person` with a string variable 'name' and an integer varia
 1. **setValue**: Sets the variables value.
 2. **getValue**: Prints the variables value.
 
+## Answer
 ```cpp
 #include <iostream>
 using namespace std;
@@ -646,7 +651,8 @@ int main() {
     p.getValue();
 
     return 0;
-}```
+}
+```
 
 
 ## Problem Statement
@@ -664,7 +670,7 @@ Area of a rectangle = length x breadth
 
 **Member Functions**:
 1. `getArea()`: Calculates the area of the rectangle and returns the value.
-
+## Answer
 ```cpp
 #include <bits/stdc++.h> 
 
@@ -678,6 +684,7 @@ public:
         return area;
     }
 };
+```
 
 
 
