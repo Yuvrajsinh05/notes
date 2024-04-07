@@ -197,4 +197,488 @@ There are several advantages of polymorphism in C++:
 - Inheritance represents the parent-child relationship between two classes. Polymorphism takes advantage of this relationship to make the program more dynamic.
 - Inheritance facilitates code reusability in child classes by inheriting behavior from the parent class, while polymorphism enables child classes to redefine already defined behavior inside the parent class. Without polymorphism, a child class can’t execute its own behavior.
 
+## Problem Statement 
+
+### Question : 1 (Complex Number Class)
+
+A `ComplexNumber` class contains two data members: one is the real part (`R`) and the other is imaginary (`I`) (both integers).
+
+Implement the Complex numbers class that contains the following functions:
+
+1. **Constructor**: You need to create the appropriate constructor.
+2. **plus**: This function adds two given complex numbers and updates the first complex number.
+
+   e.g., if `C1 = 4 + i5` and `C2 = 3 + i1`, `C1.plus(C2)` results in: `C1 = 7 + i6` and `C2 = 3 + i1`.
+   
+3. **multiply**: This function multiplies two given complex numbers and updates the first complex number.
+
+   e.g., if `C1 = 4 + i5` and `C2 = 1 + i2`, `C1.multiply(C2)` results in: `C1 = -6 + i13` and `C2 = 1 + i2`.
+
+4. **print**: This function prints the given complex number in the following format: `a + ib`. Note: There is space before and after '+' (plus sign) and no space between 'i' (iota symbol) and `b`.
+
+## Answer
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class ComplexNumbers {
+private:
+    int real;
+    int imaginary;
+
+public:
+    // Constructor
+    ComplexNumbers(int r, int i) {
+        real = r;
+        imaginary = i;
+    }
+
+    // Plus method
+    void plus(ComplexNumbers &other) {
+        real += other.real;
+        imaginary += other.imaginary;
+    }
+
+    // Multiply method
+    void multiply(ComplexNumbers &other) {
+        int tempReal = real * other.real - imaginary * other.imaginary;
+        imaginary = real * other.imaginary + imaginary * other.real;
+        real = tempReal;
+    }
+
+    // Print method
+    void print() {
+        cout << real << " + i" << imaginary << endl;
+    }
+};
+
+int main() {
+    int real1, imaginary1, real2, imaginary2;
+
+    // Input
+    cin >> real1 >> imaginary1;
+    cin >> real2 >> imaginary2;
+
+    // Create complex numbers
+    ComplexNumbers c1(real1, imaginary1);
+    ComplexNumbers c2(real2, imaginary2);
+
+    int choice;
+    cin >> choice;
+
+    // Perform operation based on choice
+    if (choice == 1) {
+        c1.plus(c2);
+        c1.print();
+    } else if (choice == 2) {
+        c1.multiply(c2);
+        c1.print();
+    }
+
+    return 0;
+}
+```
+
+### ### Question : 2 (Polynomial Class)
+
+Implement a polynomial class with the following properties and functions:
+
+**Properties**:
+1. An integer (let's say `A`) which holds the coefficient and degrees. Use array indices as degree and `A[i]` as the coefficient of the ith degree.
+2. An integer holding the total size of array `A`.
+
+**Functions**:
+1. **Default constructor**
+2. **Copy constructor**
+3. **setCoefficient**: This function sets the coefficient for a particular degree value. If the given degree is greater than the current polynomial capacity, increase the capacity accordingly and set the required coefficient. If the degree is within limits, the previous coefficient value is replaced by the given coefficient value.
+4. **Overload "+" operator** (`P3 = P1 + P2`): Adds two polynomials and returns a new polynomial that has the result.
+5. **Overload "-" operator** (`P3 = P1 - P2`): Subtracts two polynomials and returns a new polynomial which has the result.
+6. **Overload "*" operator** (`P3 = P1 * P2`): Multiplies two polynomials and returns a new polynomial which has the result.
+7. **Overload "=" operator (Copy assignment operator)**: Assigns all values of one polynomial to another.
+8. **print()**: Prints all the terms (only terms with non-zero coefficients are to be printed) in increasing order of degree. Print pattern for a single term: `<coefficient>"x"<degree>`. Multiple terms should be printed separated by space. After printing one polynomial, print a new line. For more clarity, refer to sample test cases.
+
+```cpp
+#include<iostream>
+
+using namespace std;
+
+class Polynomial {
+public:
+    int * degCoeff;
+    int capacity;
+
+    Polynomial() {
+        degCoeff = new int[10];
+        capacity = 10;
+        for (int i = 0; i < 10; i++) {
+            degCoeff[i] = 0;
+        }
+    }
+
+    Polynomial(const Polynomial & p) {
+        degCoeff = new int[p.capacity];
+        for (int i = 0; i < p.capacity; i++) {
+            degCoeff[i] = p.degCoeff[i];
+        }
+        capacity = p.capacity;
+    }
+
+    void operator=(Polynomial const & p) {
+        delete[] degCoeff;
+        degCoeff = new int[p.capacity];
+        for (int i = 0; i < p.capacity; i++) {
+            degCoeff[i] = p.degCoeff[i];
+        }
+        capacity = p.capacity;
+    }
+
+    void setCoefficient(int degree, int coeff) {
+        if (degree >= capacity) {
+            int size = 2 * capacity;
+            while (size <= degree) {
+                size *= 2;
+            }
+            int * newDegCoeff = new int[size];
+            for (int i = 0; i < size; i++) {
+                newDegCoeff[i] = 0;
+            }
+            for (int i = 0; i < capacity; i++) {
+                newDegCoeff[i] = degCoeff[i];
+            }
+            capacity = size;
+            delete[] degCoeff;
+            degCoeff = newDegCoeff;
+        }
+        degCoeff[degree] = coeff;
+    }
+
+    void print() {
+        for (int i = 0; i < capacity; i++) {
+            if (degCoeff[i] != 0) {
+                cout << degCoeff[i] << "x" << i << " ";
+            }
+        }
+        cout << endl;
+    }
+
+    Polynomial operator+(Polynomial const & p) {
+        Polynomial pNew;
+        int i = 0, j = 0;
+        while (i < this->capacity && j < p.capacity) {
+            int deg = i;
+            int coeff = this->degCoeff[i] + p.degCoeff[j];
+            pNew.setCoefficient(deg, coeff);
+            i++;
+            j++;
+        }
+        while (i < capacity) {
+            pNew.setCoefficient(i, degCoeff[i]);
+            i++;
+        }
+        while (j < p.capacity) {
+            pNew.setCoefficient(j, p.degCoeff[j]);
+            j++;
+        }
+        return pNew;
+    }
+
+    Polynomial operator-(Polynomial p) {
+        Polynomial pNew;
+        int i = 0, j = 0;
+        while (i < this->capacity && j < p.capacity) {
+            int deg = i;
+            int coeff = this->degCoeff[i] - p.degCoeff[j];
+            pNew.setCoefficient(deg, coeff);
+            i++;
+            j++;
+        }
+        while (i < capacity) {
+            pNew.setCoefficient(i, degCoeff[i]);
+            i++;
+        }
+        while (j < p.capacity) {
+            pNew.setCoefficient(j, (-1 * p.degCoeff[j]));
+            j++;
+        }
+        return pNew;
+    }
+
+    int getCoefficient(int degree) {
+        if (degree >= capacity) {
+            return 0;
+        }
+        return degCoeff[degree];
+    }
+
+    Polynomial operator*(Polynomial p) {
+        Polynomial pNew;
+
+        for (int j = 0; j < p.capacity; j++) {
+            for (int i = 0; i < capacity; i++) {
+                int deg = i + j;
+                int coeff = pNew.getCoefficient(deg) + (this->degCoeff[i] * p.degCoeff[j]);
+                pNew.setCoefficient(deg, coeff);
+            }
+        }
+        return pNew;
+    }
+};
+
+int main() {
+    int count1, count2, choice;
+    cin >> count1;
+
+    int * degree1 = new int[count1];
+    int * coeff1 = new int[count1];
+
+    for (int i = 0; i < count1; i++) {
+        cin >> degree1[i];
+    }
+
+    for (int i = 0; i < count1; i++) {
+        cin >> coeff1[i];
+    }
+
+    Polynomial first;
+    for (int i = 0; i < count1; i++) {
+        first.setCoefficient(degree1[i], coeff1[i]);
+    }
+
+    cin >> count2;
+
+    int * degree2 = new int[count2];
+    int * coeff2 = new int[count2];
+
+    for (int i = 0; i < count2; i++) {
+        cin >> degree2[i];
+    }
+
+    for (int i = 0; i < count2; i++) {
+        cin >> coeff2[i];
+    }
+
+    Polynomial second;
+    for (int i = 0; i < count2; i++) {
+        second.setCoefficient(degree2[i], coeff2[i]);
+    }
+
+    cin >> choice;
+
+    Polynomial result;
+    switch (choice) {
+        // Add
+    case 1:
+        result = first + second;
+        result.print();
+        break;
+        // Subtract
+    case 2:
+        result = first - second;
+        result.print();
+        break;
+        // Multiply
+    case 3:
+        result = first * second;
+        result.print();
+        break;
+
+    case 4: // Copy constructor
+    {
+        Polynomial third(first);
+        if (third.degCoeff == first.degCoeff) {
+            cout << "false" << endl;
+        } else {
+            cout << "true" << endl;
+        }
+        break;
+    }
+
+    case 5: // Copy assignment operator
+    {
+        Polynomial fourth(first);
+        if (fourth.degCoeff == first.degCoeff) {
+            cout << "false" << endl;
+        } else {
+            cout << "true" << endl;
+        }
+        break;
+    }
+
+    }
+
+    return 0;
+}
+```
+## Problem Statement
+
+## Question : 3 (Fraction Class)
+
+Implement a Fraction Class with the following properties and functions:
+
+**Properties**:
+1. Numerator
+2. Denominator
+
+**Functions**:
+1. **Parametrized constructor**: Sets the numerator and denominator values.
+2. **add**: This function adds the two fractions following the rules of fraction addition and updates the first fractional number.
+   - e.g., if `f1 = 1/4` and `f2 = 3/5`, `f1.add(f2)` results in: `f1 = 17/20` and `f2 = 3/5`.
+3. **multiply**: This function multiplies the two fractions and updates the first fractional number.
+   - e.g., if `f1 = 1/4` and `f2 = 3/5`, `f1.multiply(f2)` results in: `f1 = 3/20` and `f2 = 3/5`.
+4. **simplify**: This function simplifies the fractional value using the inbuilt `__gcd()` function.
+   - e.g., if `f1 = 5/20`, which can be further simplified as `1/4`, `simplify` will perform this.
+5. **print()**: Prints the final answer in the numerator/denominator form.
+
+```cpp
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+class Fraction {
+private:
+    int numerator;
+    int denominator;
+
+    int gcd(int a, int b) {
+        if (b == 0)
+            return a;
+        return gcd(b, a % b);
+    }
+
+public:
+    // Parametrized constructor
+    Fraction(int num = 0, int denom = 1) : numerator(num), denominator(denom) {}
+
+    // Addition
+    void add(const Fraction &other) {
+        numerator = numerator * other.denominator + other.numerator * denominator;
+        denominator *= other.denominator;
+        simplify();
+    }
+
+    // Multiplication
+    void multiply(const Fraction &other) {
+        numerator *= other.numerator;
+        denominator *= other.denominator;
+        simplify();
+    }
+
+    // Simplify the fraction
+    void simplify() {
+        int common = gcd(numerator, denominator);
+        numerator /= common;
+        denominator /= common;
+    }
+
+    // Print the fraction
+    void print() const {
+        cout << numerator << "/" << denominator << endl;
+    }
+};
+
+int main() {
+    int num, denom, queries;
+    cin >> num >> denom >> queries;
+    
+    Fraction f1(num, denom);
+
+    for (int i = 0; i < queries; ++i) {
+        int type, n, d;
+        cin >> type >> n >> d;
+        Fraction f2(n, d);
+
+        if (type == 1) {
+            f1.add(f2);
+        } else if (type == 2) {
+            f1.multiply(f2);
+        }
+
+        f1.print();
+    }
+
+    return 0;
+}
+```
+## Problem Statement
+
+## Question 4 (Print Name and Age)
+
+Create a class named `Person` with a string variable 'name' and an integer variable 'age,' such that these variables are not accessible outside the class and implement a way to initialize the variables and print the variables.
+
+**Functions**:
+1. **setValue**: Sets the variables value.
+2. **getValue**: Prints the variables value.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Person {
+private:
+    string name;
+    int age;
+
+public:
+    void setValue(string n, int a) {
+        name = n;
+        age = a;
+    }
+
+    void getValue() {
+        cout << "The name of the person is " << name << " and the age is " << age << "." << endl;
+    }
+};
+
+int main() {
+    Person p;
+    string name;
+    int age;
+
+    // Input name and age
+    cin >> name >> age;
+
+    // Set values for name and age
+    p.setValue(name, age);
+
+    // Print name and age
+    p.getValue();
+
+    return 0;
+}```
+
+
+## Problem Statement
+
+## Question 5 ( Area of a Rectangle)
+
+Design a class called `Rectangle`. It contains two data members as length (L) and breadth (B), and a member function `getArea()`. The member function computes the area of the given rectangle and returns it to the caller.
+
+**Note**:
+Area of a rectangle = length x breadth
+
+**Data Members**:
+1. `length`: Length of the rectangle
+2. `breadth`: Breadth of the rectangle 
+
+**Member Functions**:
+1. `getArea()`: Calculates the area of the rectangle and returns the value.
+
+```cpp
+#include <bits/stdc++.h> 
+
+class Rectangle {
+public:
+    int length;
+    int breadth;
+
+    int getArea() {
+        int area = length * breadth;
+        return area;
+    }
+};
+
+
+
 
