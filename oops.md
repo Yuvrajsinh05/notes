@@ -39,8 +39,47 @@
 
 ## Q5. What is the difference between class and structure?
 
-- **Class**: User-defined blueprint from which objects are created. It consists of methods or sets of instructions that are to be performed on the objects.
-- **Structure**: A structure is basically a user-defined collection of variables of different data types.
+In C++, both classes and structures serve as blueprints for creating user-defined data types. While they share similarities, they have distinct characteristics that set them apart. Let's delve into these differences more comprehensively.
+
+1. **Class**:
+   - **Definition**: A class is a fundamental concept in object-oriented programming (OOP) that encapsulates data for the object and functions to operate on that data.
+   - **Access Level**: By default, the members (variables and functions) of a class are private, meaning they can only be accessed within the class. However, you can explicitly specify different access levels like public, protected, or private using access specifiers.
+   - **Usage**: Classes are commonly used to model real-world entities with complex behavior and data interactions. They often encapsulate both data and behavior (methods) within a single entity.
+   - **Example**:
+     ```cpp
+     class MyClass {
+     private:
+         int privateVar;
+
+     public:
+         void setPrivateVar(int value) {
+             privateVar = value;
+         }
+
+         int getPrivateVar() {
+             return privateVar;
+         }
+     };
+     ```
+
+2. **Structure**:
+   - **Definition**: A structure is a user-defined data type that groups together variables of different data types under a single name. It's similar to a class but with some key differences, notably in the default access level and inheritance behavior.
+   - **Access Level**: By default, all members of a structure are public, meaning they can be accessed from outside the structure without any restrictions. However, like classes, you can explicitly specify access levels for members using access specifiers.
+   - **Usage**: Structures are often used for simple data representation, such as holding related data items together. They are less focused on encapsulation and behavior and more on organizing data.
+   - **Example**:
+     ```cpp
+     struct MyStruct {
+         int publicVar;
+     };
+     ```
+
+### Key Differences:
+- **Default Access Level**: In classes, members are private by default, while in structures, members are public by default.
+- **Encapsulation**: Classes emphasize encapsulation, encapsulating data and behavior into a single unit. Structures, on the other hand, typically focus more on data organization without the same level of encapsulation.
+- **Inheritance**: In C++, classes support inheritance, allowing one class to inherit properties and behaviors from another. Structures, however, don't support inheritance prior to C++11.
+- **Typical Usage**: Classes are commonly used for modeling complex entities with behaviors, while structures are often used for simple data aggregation.
+
+In summary, while both classes and structures serve as user-defined data types in C++, their default access levels and typical usage scenarios differ, making each suitable for distinct programming needs. Understanding these differences is essential for choosing the appropriate construct for designing software systems effectively.
 
 ## Q6. What is the difference between a class and an object?
 
