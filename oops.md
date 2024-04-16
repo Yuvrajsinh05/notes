@@ -206,17 +206,30 @@ If a field is declared private in the class, it cannot be accessed by anyone out
 
 Classes do not consume any memory. They are merely blueprints based on which objects are created. When objects are created, they initialize the class members and methods, thereby consuming memory.
 
-## Q24 Are there any limitations of Inheritance?
+## Q24 What is Inheritance?
+
+In C++, inheritance is a key concept in object-oriented programming where a class (derived class) can inherit attributes and behaviors from another class (base class). This promotes code reuse and hierarchy in software design.
+
+### Advantages of Inheritance:
+- Code Reuse: Inherited members can be used directly in the derived class, reducing redundancy.
+- Modularity: Promotes a clear hierarchy of classes, enhancing code organization.
+- Extensibility: Allows for easy addition of new functionality to existing classes.
+
+### Limitations of Inheritance:
+1. **Increased Complexity**: Inheritance hierarchies can become complex, making code maintenance challenging.
+2. **Tight Coupling**: Changes in base classes can affect derived classes, leading to inflexibility.
+3. **Performance Overhead**: Navigation through multiple levels of inheritance may incur processing time.
+4. **Diamond Problem**: Ambiguity arises in multiple inheritance scenarios, causing conflicts.
+5. **Inflexibility in Design Changes**: Refactoring the codebase can be difficult without affecting existing functionality.
+6. **Increased Dependency**: Derived classes depend on base class implementations, hindering scalability.
+7. **Violation of Encapsulation**: Inheritance may violate encapsulation if derived classes have access to private members of base classes.
+
+### Conclusion:
+While inheritance offers advantages in code reuse and hierarchy, its limitations should be considered for effective software design. Careful planning and consideration of alternatives can mitigate potential drawbacks.
 
 Yes, there are limitations to inheritance. While it is a powerful feature in Object-Oriented Programming (OOP), it comes with complexities. Inheritance may require more processing time as it navigates through multiple classes for its implementation. Also, the classes involved in inheritance are tightly coupled, meaning changes in one class may necessitate changes in related classes. Incorrect implementation of inheritance can lead to unexpected errors or incorrect outputs.
 
-## Q25 What is the difference between overloading and overriding?
-
-Overloading is a compile-time polymorphism feature where an entity has multiple implementations with the same name, such as Method overloading and Operator overloading.
-
-Overriding is a runtime polymorphism feature where an entity has the same name, but its implementation changes during execution, such as Method overriding.
-
-## Q26 What are the various types of inheritance?
+## Q25 What are the various types of inheritance?
 
 The various types of inheritance include:
 - Single inheritance
@@ -230,6 +243,13 @@ The various types of inheritance include:
 There are several advantages of polymorphism in C++:
 - Achieving flexibility in code by performing various operations using methods with the same names according to requirements.
 - Providing implementation to an abstract base class or an interface.
+  
+## Q26 What is the difference between overloading and overriding?
+
+Overloading is a compile-time polymorphism feature where an entity has multiple implementations with the same name, such as Method overloading and Operator overloading.
+
+Overriding is a runtime polymorphism feature where an entity has the same name, but its implementation changes during execution, such as Method overriding.
+
 
 ## Q28 What are the differences between Polymorphism and Inheritance in C++?
 
