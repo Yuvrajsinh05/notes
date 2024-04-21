@@ -550,3 +550,238 @@ To delete an element from an array:
     ```
 
     Time complexity: O(N) in worst case
+
+
+---
+
+**Sample Problems on Array**
+
+---
+
+**Problem #1: Range Sum Queries using Prefix Sum**
+
+**Description:** We are given an Array of n integers and q queries with indices l and r. We have to find the sum between the given range of indices.
+
+**Input:**
+```
+[4, 5, 3, 2, 5]
+3
+0 3
+2 4
+1 3
+```
+
+**Output:**
+```
+14 (4+5+3+2)
+10 (3+2+5)
+10 (5+3+2)
+```
+
+**Solution:** The number of queries is large, iterating over the array for each query is inefficient. We need a solution to find the answer in constant time. We'll use a prefix sum array to store the sum up to each index and calculate the sum for the given range.
+
+```
+prefix[]: Array stores the sum (A[0]+A[1]+....A[i]) at index i.
+if l == 0 :
+    sum(l,r) = prefix[r]
+else :
+    sum(l,r) = prefix[r] - prefix[l-1]
+```
+
+**Pseudo Code:**
+```javascript
+// n: size of array
+// q: Number of queries
+// l, r: Finding Sum of range between index l and r
+// l and r (inclusive) and 0 based indexing
+
+function rangeSum(arr, n, queries) {
+    let prefix = [];
+    prefix[0] = arr[0];
+    for (let i = 1; i < n; i++) {
+        prefix[i] = arr[i] + prefix[i - 1];
+    }
+
+    for (let i = 0; i < queries.length; i++) {
+        let [l, r] = queries[i];
+        let ans = (l === 0) ? prefix[r] : prefix[r] - prefix[l - 1];
+        console.log(ans);
+    }
+}
+```
+
+**Time Complexity:** Max(O(n), O(q))
+
+**Auxiliary Space:** O(n)
+
+---
+
+**Problem #2: Equilibrium index of an array**
+
+**Description:** Equilibrium index of an array is an index such that the sum of elements at lower indexes is equal to the sum of elements at higher indexes. We are given an Array of integers, We have to find out the first index i from the left such that:
+
+A[0] + A[1] + ... A[i-1] = A[i+1] + A[i+2] ... A[n-1]
+
+**Input:**
+```
+[-7, 1, 5, 2, -4, 3, 0]
+```
+**Output:**
+```
+3
+A[0] + A[1] + A[2] = A[4] + A[5] + A[6]
+```
+
+**Naive Solution:** We can iterate for each index i and calculate the leftsum and rightsum and check whether they are equal.
+
+```javascript
+// arr: input array
+// n: size of array
+// Return the equilibrium index or -1 if not found
+function equilibriumIndex(arr, n) {
+    for (let i = 0; i < n; i++) {
+        let leftSum = 0;
+        for (let j = 0; j < i; j++)
+            leftSum += arr[j];
+        let rightSum = 0;
+        for (let j = i + 1; j < n; j++)
+            rightSum += arr[j];
+
+        if (leftSum === rightSum)
+            return i;
+    }
+    return -1;
+}
+```
+
+**Time Complexity:** O(n^2)
+
+**Auxiliary Space:** O(1)
+
+
+**Tricky Solution:** The idea is to first get the total sum of the array. Then iterate through the array and keep updating the left sum, which is initialized as zero. In the loop, we can get the right sum by subtracting the elements one by one. Then check whether the Leftsum and the Rightsum are equal.
+
+**Pseudo Code:**
+```javascript
+// n: size of array
+function eqindex(arr, n) {
+    let sum = 0;
+    let leftsum = 0;
+    for (let i = 0; i < n; i++)
+        sum += arr[i];
+
+    for (let i = 0; i < n; i++) {
+        sum -= arr[i]; // now sum will be rightsum for index i
+        if (sum === leftsum)
+            return i;
+        leftsum += arr[i];
+    }
+    return -1; // If no equilibrium index found
+}
+```
+
+**Time Complexity:** O(n)
+
+**Auxiliary Space:** O(1)
+
+---
+
+
+
+Here's the markdown with the provided problem and solution:
+
+---
+
+**Problem #3: Largest Sum Subarray**
+
+**Description:** We are given an array of positive and negative integers. We have to find the subarray having the maximum sum.
+
+**Input:**
+```
+[-3, 4, -1, -2, 1, 5]
+```
+**Output:**
+```
+7
+(4+(-1)+(-2)+1+5)
+```
+
+**Solution:** A simple idea is to look for all the positive contiguous segments of the array (max_ending_here is used for this), and keep track of the maximum sum contiguous segment among all the positive segments (max_so_far is used for this). Each time we get a positive sum compare it with max_so_far and if it is greater than max_so_far, update max_so_far.
+
+**Pseudo Code:**
+```javascript
+// n: size of array
+function largestSum(arr, n) {
+    let max_so_far = Number.MIN_SAFE_INTEGER;
+    let max_ending_here = 0;
+
+    for (let i = 0; i < n; i++) {
+        max_ending_here += arr[i];
+        if (max_so_far < max_ending_here) {
+            max_so_far = max_ending_here;
+        }
+
+        if (max_ending_here < 0) {
+            max_ending_here = 0;
+        }
+    }
+
+    return max_so_far;
+}
+```
+
+**Time Complexity:** O(n)
+
+**Auxiliary Space:** O(1)
+
+---
+
+Here's the markdown with the provided problem and solution:
+
+---
+
+**Problem #4: Merge two sorted Arrays**
+
+**Description:** We are given two sorted arrays `arr1[]` and `arr2[]` of size m and n respectively. We have to merge these arrays and store the numbers in `arr3[]` of size m+n.
+
+**Input:**
+```
+1 3 4 6
+2 5 7 8
+```
+**Output:**
+```
+1 2 3 4 5 6 7 8
+```
+
+**Solution:** The idea is to traverse both the arrays simultaneously and compare the current numbers from both the Arrays. Pick the smaller element and copy it to `arr3[]` and advance the current index of the array from where the smaller element is picked. When we reach the end of one of the arrays, copy the remaining elements of the other array to `arr3[]`.
+
+**Pseudo Code:**
+```javascript
+// input arrays - arr1(size m), arr2(size n)
+function mergeSorted(arr1, arr2, m, n) {
+    let arr3 = []; // merged array
+    let i = 0, j = 0, k = 0;
+    while (i < m && j < n) {
+        if (arr1[i] < arr2[j]) {
+            arr3[k++] = arr1[i++];
+        } else {
+            arr3[k++] = arr2[j++];
+        }
+    }
+    while (i < m) {
+        arr3[k++] = arr1[i++];
+    }
+    while (j < n) {
+        arr3[k++] = arr2[j++];
+    }
+    return arr3;
+}
+```
+
+**Time Complexity:** O(m+n)
+
+**Auxiliary Space:** O(m+n)
+
+---
+
