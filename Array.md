@@ -785,3 +785,558 @@ function mergeSorted(arr1, arr2, m, n) {
 
 ---
 
+**Problem #5: Finding the Largest Element in an Array**
+
+**Description:** Given an array `arr` of size `N`, the task is to find the largest element in the given array.
+
+**Example:** 
+
+Input: `arr[] = {10, 20, 4}`
+Output: `20`
+
+Input : `arr[] = {20, 10, 20, 4, 100}`
+Output : `100`
+
+**Approach 1 - Naive Method:**
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int getlargest(int arr[], int n)
+{
+    for (int i = 0; i < n; ++i) {
+        bool flag = true;
+        for (int j = i; j < n; ++j) {
+            if (arr[j] > arr[i]) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag == true) {
+            return arr[i];
+        }
+    }
+
+    return -1;
+}
+
+int main()
+{
+    int arr[] = { 5, 8, 20, 15 };
+    cout << "Largest in given array is "
+         << getlargest(arr, 4);
+    return 0;
+}
+```
+
+**Output:**
+```
+Largest in given array is 20
+```
+
+**Approach 2 – Linear Traversal:** One of the simplest and basic approaches to solve this problem is to traverse the whole list and find the maximum among them.
+
+**Steps:**
+1. Create a local variable `max` to store the maximum among the list.
+2. Initialize `max` with the first element initially, to start the comparison.
+3. Then traverse the given array from the second element till the end, and for each element:
+   - Compare the current element with `max`.
+   - If the current element is greater than `max`, then replace the value of `max` with the current element.
+4. At the end, return and print the value of the largest element of array stored in `max`.
+
+```cpp
+// C++ program to find maximum
+// in arr[] of size n
+#include <bits/stdc++.h>
+using namespace std;
+
+int largest(int arr[], int n)
+{
+	int i;
+	
+	// Initialize maximum element
+	int max = arr[0];
+
+	// Traverse array elements
+	// from second and compare
+	// every element with current max
+	for (i = 1; i < n; i++)
+		if (arr[i] > max)
+			max = arr[i];
+
+	return max;
+}
+
+// Driver Code
+int main()
+{
+	int arr[] = {10, 324, 45, 90, 9808};
+	int n = sizeof(arr) / sizeof(arr[0]);
+	cout << "Largest in given array is "
+		<< largest(arr, n);
+	return 0;
+}
+```
+
+**Output:**
+```
+Largest in given array is 9808
+```
+
+---
+**Problem #6: Finding the Second Largest Element in Array**
+
+**Description:** Given an array of integers, our task is to write a program that efficiently finds the second largest element present in the array.
+
+**Example:**
+
+Input: `arr[] = {12, 35, 1, 10, 34, 1}`
+Output: The second largest element is `34`.
+Explanation: The largest element of the array is `35` and the second largest element is `34`.
+
+Input: `arr[] = {10, 5, 10}`
+Output: The second largest element is `5`.
+Explanation: The largest element of the array is `10` and the second largest element is `5`.
+
+Input: `arr[] = {10, 10, 10}`
+Output: The second largest does not exist.
+Explanation: Largest element of the array is `10` there is no second largest element.
+
+**Efficient Solution:**
+
+**Approach:** Find the second largest element in a single traversal. 
+
+**Algorithm:**
+1. Initialize the first as 0 (i.e., index of `arr[0]` element).
+2. Start traversing the array from `array[1]`,
+   - If the current element in array say `arr[i]` is greater than `first`, then update `first` and `second` as follows:
+     ```
+     second = first
+     first = arr[i]
+     ```
+   - If the current element is in between `first` and `second`, then update `second` to store the value of current variable as follows:
+     ```
+     second = arr[i]
+     ```
+3. Return the value stored in `second`.
+
+**Implementation:**
+
+```cpp
+// C++ program to find the second largest element
+#include <iostream>
+using namespace std;
+
+// returns the index of second largest
+// if second largest didn't exist return -1
+int secondLargest(int arr[], int n) {
+    int first = 0, second = -1;
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > arr[first]) {
+            second = first;
+            first = i;
+        }
+        else if (arr[i] < arr[first]) {
+            if (second == -1 || arr[second] < arr[i])
+                second = i;
+        }
+    }
+    return second;
+}
+
+int main() {
+    int arr[] = {10, 12, 20, 4};
+    int index = secondLargest(arr, sizeof(arr)/sizeof(arr[0]));
+    if (index == -1)
+        cout << "Second Largest didn't exist";
+    else
+        cout << "Second largest : " << arr[index];
+}
+```
+
+**Complexity Analysis:**
+- Time Complexity: O(n). Only one traversal of the array is needed.
+- Auxiliary space: O(1). As no extra space is required.
+
+ ---
+ 
+**Problem #7: Checking if an Array is Sorted**
+
+**Description:** Given an array of size `n`, write a program to check if it is sorted in ascending order or not. Equal values are allowed in an array, and two consecutive equal values are considered sorted.
+
+**Examples:** 
+
+Input: `20 21 45 89 89 90`
+Output: Yes
+
+Input: `20 20 45 89 89 90`
+Output: Yes
+
+Input: `20 20 78 98 99 97`
+Output: No
+
+**Naive Approach:**
+
+```cpp
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+bool isSorted(int arr[], int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = i + 1; j < n; j++)
+        {
+            if(arr[j] < arr[i])
+                return false;
+        }
+    }
+
+    return true;
+} 
+
+int main() {
+    int arr[] = {7, 2, 30, 10}, n = 4;
+    printf("%s", isSorted(arr, n)? "true": "false");
+}
+```
+
+**Output:**
+```
+false
+```
+
+**Iterative approach:**
+
+```cpp
+// C++ program to check if an
+// Array is sorted or not
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function that returns true if array is
+// sorted in non-decreasing order.
+bool arraySortedOrNot(int arr[], int n)
+{
+    // Array has one or no element
+    if (n == 0 || n == 1)
+        return true;
+
+    for (int i = 1; i < n; i++)
+
+        // Unsorted pair found
+        if (arr[i - 1] > arr[i])
+            return false;
+
+    // No unsorted pair found
+    return true;
+}
+
+// Driver code
+int main()
+{
+    int arr[] = { 20, 23, 23, 45, 78, 88 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+    if (arraySortedOrNot(arr, n))
+        cout << "Yes\n";
+    else
+        cout << "No\n";
+}
+```
+
+**Output:**
+```
+Yes
+```
+
+**Time Complexity:** O(n) 
+**Auxiliary Space:** O(1)
+
+
+---
+
+**Problem #8: Reversing an Array**
+
+**Description:** Given an array (or string), the task is to reverse the array/string.
+
+**Examples:** 
+
+Input: `arr[] = {1, 2, 3}`
+Output: `arr[] = {3, 2, 1}`
+
+Input: `arr[] = {4, 5, 1, 2}`
+Output: `arr[] = {2, 1, 5, 4}`
+
+**Iterative way:**
+
+1) Initialize start and end indexes as `start = 0`, `end = n-1`.
+2) In a loop, swap `arr[start]` with `arr[end]` and change `start` and `end` as follows: 
+   `start = start +1`, `end = end – 1`.
+
+Below is the implementation of the above approach:
+
+```cpp
+// Iterative C++ program to reverse an array
+#include <bits/stdc++.h>
+using namespace std;
+
+/* Function to reverse arr[] from start to end*/
+void rvereseArray(int arr[], int start, int end)
+{
+    while (start < end)
+    {
+        int temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        start++;
+        end--;
+    }
+}   
+
+/* Utility function to print an array */
+void printArray(int arr[], int size)
+{
+    for (int i = 0; i < size; i++)
+        cout << arr[i] << " ";
+
+    cout << endl;
+}
+
+/* Driver function to test above functions */
+int main()
+{
+    int arr[] = {1, 2, 3, 4, 5, 6};
+    
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    // To print original array
+    printArray(arr, n);
+    
+    // Function calling
+    rvereseArray(arr, 0, n-1);
+    
+    cout << "Reversed array is" << endl;
+    
+    // To print the Reversed array
+    printArray(arr, n);
+    
+    return 0;
+}
+```
+
+**Output:** 
+
+```
+1 2 3 4 5 6 
+Reversed array is 
+6 5 4 3 2 1 
+```
+
+**Time Complexity:** O(n)
+---
+
+**Problem #9: Removing Duplicates from a Sorted Array**
+
+**Description:** Given a sorted array, the task is to remove the duplicate elements from the array.
+
+**Examples:** 
+
+Input: `arr[] = {2, 2, 2, 2, 2}`
+Output: `arr[] = {2}`
+New size: `1`
+
+Input: `arr[] = {1, 2, 2, 3, 4, 4, 4, 5, 5}`
+Output: `arr[] = {1, 2, 3, 4, 5}`
+New size: `5`
+
+**Method 1: (Using extra space)** 
+
+```cpp
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int remDups(int arr[], int n)
+{
+    int temp[n];
+    temp[0] = arr[0];
+    int res = 1;
+    for(int i = 1; i < n; i++)
+    {
+        if(temp[res - 1] != arr[i])
+        {
+            temp[res] = arr[i];
+            res++;
+        }
+    }
+    for(int i = 0; i < res; i++)
+    {
+        arr[i] = temp[i];
+    }
+    return res;
+}
+
+int main() {
+    int arr[] = {10, 20, 20, 30, 30, 30}, n = 6;
+    cout<<"Before Removal"<<endl;
+    for(int i = 0; i < n; i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+    n = remDups(arr, n);
+    cout<<"After Removal"<<endl;
+    for(int i = 0; i < n; i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+}
+```
+
+**Output:**
+
+```
+Before Removal
+10 20 20 30 30 30 
+After Removal
+10 20 30 
+```
+
+**Time Complexity:** O(n) 
+**Auxiliary Space:** O(n)
+
+**Method 2: (Constant extra space)**
+
+```cpp
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int remDups(int arr[], int n)
+{
+    int res = 1;
+    for(int i = 1; i < n; i++)
+    {
+        if(arr[res - 1] != arr[i])
+        {
+            arr[res] = arr[i];
+            res++;
+        }
+    }
+    return res;
+}
+
+int main() {
+    int arr[] = {10, 20, 20, 30, 30, 30}, n = 6;
+    cout<<"Before Removal"<<endl;
+    for(int i = 0; i < n; i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+    n = remDups(arr, n);
+    cout<<"After Removal"<<endl;
+    for(int i = 0; i < n; i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+}
+```
+
+**Output:**
+
+```
+Before Removal
+10 20 20 30 30 30 
+After Removal
+10 20 30 
+```
+
+**Time Complexity:** O(n) 
+**Auxiliary Space:** O(1)
+
+---
+
+**Problem #10: Move Zeros to End**
+
+**Description:** Given an array of n numbers. The problem is to move all the 0’s to the end of the array while maintaining the order of the other elements. Only a single traversal of the array is required.
+
+**Examples:** 
+
+Input: `arr[]  = {1, 2, 0, 0, 0, 3, 6}`
+Output: `1 2 3 6 0 0 0`
+
+Input: `arr[] = {0, 1, 9, 8, 4, 0, 0, 2, 7, 0, 6, 0, 9}`
+Output: `1 9 8 4 2 7 6 9 0 0 0 0 0`
+
+**Algorithm:**
+
+```
+moveZerosToEnd(arr, n)
+    Initialize count = 0
+    for i = 0 to n-1
+        if (arr[i] != 0) then
+            arr[count++]=arr[i]
+    for i = count to n-1
+        arr[i] = 0
+```
+
+**Implementation:**
+
+```cpp
+// C++ implementation to move all zeroes at the end of array
+#include <iostream>
+using namespace std;
+
+// function to move all zeroes at the end of array
+void moveZerosToEnd(int arr[], int n)
+{
+    // Count of non-zero elements
+    int count = 0;
+
+    // Traverse the array. If arr[i] is non-zero, then
+    // update the value of arr at index count to arr[i]
+    for (int i = 0; i < n; i++)
+        if (arr[i] != 0)
+            arr[count++] = arr[i];
+
+    // Update all elements at index >=count with value 0
+    for (int i = count; i < n; i++)
+        arr[i] = 0;
+}
+
+// function to print the array elements
+void printArray(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+}
+
+// Driver program to test above
+int main()
+{
+    int arr[] = { 0, 1, 9, 8, 4, 0, 0, 2, 7, 0, 6, 0, 9 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    cout << "Original array: ";
+    printArray(arr, n);
+
+    moveZerosToEnd(arr, n);
+
+    cout << "\nModified array: ";
+    printArray(arr, n);
+    return 0;
+}
+```
+
+**Output:**
+
+```
+Original array: 0 1 9 8 4 0 0 2 7 0 6 0 9 
+Modified array: 1 9 8 4 2 7 6 9 0 0 0 0 0 
+```
+
+**Time Complexity:** O(n). 
+**Auxiliary Space:** O(1).
