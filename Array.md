@@ -1540,3 +1540,87 @@ After Rotation
 
 Time complexity : O(n) 
 Auxiliary Space : O(1)
+
+---
+
+# Problem #12 : Leaders in an Array problem
+
+## Description
+Write a program to print all the LEADERS in the array. An element is a leader if it is greater than all the elements to its right side. And the rightmost element is always a leader.
+
+## Examples
+
+Input: `arr[] = {16, 17, 4, 3, 5, 2}`  
+Output: `17 5 2`
+
+Input: `arr[] = {1, 2, 3, 4, 5, 2}`  
+Output: `5 2`
+
+## Naive Approach
+
+```cpp
+#include<iostream>
+using namespace std;
+
+void printLeaders(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        int j;
+        for (j = i+1; j < size; j++) {
+            if (arr[i] <=arr[j])
+                break;
+        }
+        if (j == size)
+            cout << arr[i] << " ";
+    }
+}
+
+int main() {
+    int arr[] = {16, 17, 4, 3, 5, 2};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    printLeaders(arr, n);
+    return 0;
+}
+```
+
+Output:
+
+```
+17 5 2
+Time Complexity: O(N * N)
+Auxiliary Space: O(1)
+```
+
+## Find Leader by finding suffix maximum
+
+```cpp
+#include <iostream>
+using namespace std;
+
+void printLeaders(int arr[], int size) {
+    int max_from_right = arr[size-1];
+    cout << max_from_right << " ";
+    
+    for (int i = size-2; i >= 0; i--) {
+        if (max_from_right < arr[i]) {		
+            max_from_right = arr[i];
+            cout << max_from_right << " ";
+        }
+    }
+}
+
+int main() {
+    int arr[] = {16, 17, 4, 3, 5, 2};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    printLeaders(arr, n);
+    return 0;
+}
+```
+
+Output:
+
+```
+2 5 17
+```
+
+Time Complexity: O(n)
+Auxiliary Space: O(1)
