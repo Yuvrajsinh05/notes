@@ -1841,4 +1841,295 @@ Frequency of 10 is: 1
 **Time Complexity**: O(N)  
 **Auxiliary Space**: O(1)
 
+---
+
+Here's a Markdown document for your problem:
+
+---
+
+# Problem 15: Stock Buy and Sell Problem
+
+In a realm where numbers hold secrets, a captivating challenge awaits, which is the **Stock Buy and Sell Problem**!!!
+
+## Task
+
+The cost of a stock on each day is given in an array. Find the maximum profit that you can make by buying and selling on those days. If the given array of prices is sorted in decreasing order, then profit cannot be earned at all.
+
+## Examples
+
+- Input: `arr[] = {100, 180, 260, 310, 40, 535, 695}`
+  - Output: 865
+  - Explanation: 
+    - Buy the stock on day 0 and sell it on day 3 => 310 – 100 = 210
+    - Buy the stock on day 4 and sell it on day 6 => 695 – 40 = 655
+    - Maximum Profit = 210 + 655 = 865
+- Input: `arr[] = {4, 2, 2, 2, 4}`
+  - Output: 2
+  - Explanation: 
+    - Buy the stock on day 1 and sell it on day 4 => 4 – 2 = 2
+    - Maximum Profit = 2
+
+## Approaches
+
+### 1) Naive Approach
+
+A simple approach is to try buying the stocks and selling them every single day when profitable and keep updating the maximum profit so far.
+
+```cpp
+// C++ implementation of the approach
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to return the maximum profit
+// that can be made after buying and
+// selling the given stocks
+int maxProfit(int price[], int start, int end) {
+    // If the stocks can't be bought
+    if (end <= start)
+        return 0;
+    // Initialise the profit
+    int profit = 0;
+    // The day at which the stock
+    // must be bought
+    for (int i = start; i < end; i++) {
+        // The day at which the
+        // stock must be sold
+        for (int j = i + 1; j <= end; j++) {
+            // If buying the stock at ith day and
+            // selling it at jth day is profitable
+            if (price[j] > price[i]) {
+                // Update the current profit
+                int curr_profit
+                    = price[j] - price[i]
+                    + maxProfit(price, start, i - 1)
+                    + maxProfit(price, j + 1, end);
+                // Update the maximum profit so far
+                profit = max(profit, curr_profit);
+            }
+        }
+    }
+    return profit;
+}
+
+// Driver code
+int main() {
+    int price[] = {100, 180, 260, 310, 40, 535, 695};
+    int n = sizeof(price) / sizeof(price[0]);
+    cout << maxProfit(price, 0, n - 1);
+    return 0;
+}
+```
+
+**Output**: 865
+
+**Time Complexity**: O(n^2), Trying to buy every stock and exploring all possibilities.
+
+**Auxiliary Space**: O(1)
+
+### 2) Efficient Approach (Valley Peak Approach)
+
+In this approach, we just need to find the next greater element and subtract it from the current element so that the difference keeps increasing until we reach a minimum. If the sequence is a decreasing sequence, the maximum profit possible is 0.
+
+```cpp
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int maxProfit(int price[], int n) {
+    int profit = 0;
+    for (int i = 1; i < n; i++) {
+        if (price[i] > price[i - 1])
+            profit += price[i] - price[i - 1];
+    }
+    return profit;
+}
+
+int main() {
+    int arr[] = {1, 5, 3, 8, 12}, n = 5;
+    cout << maxProfit(arr, n);
+    return 0;
+}
+```
+
+**Output**: 13
+
+**Time Complexity**: O(n), Traversing over the array of size n.
+
+**Auxiliary Space**: O(1)
+
+---
+
+# Problem 16: Trapping Rain Water
+
+Given an array of N non-negative integers `arr[]` representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+
+## Examples
+
+- Input: `arr[] = {2, 0, 2}`
+  - Output: 2
+  - Explanation: The structure is like below.
+    ```
+    |
+    |   |
+    |___|
+    ```
+    We can trap 2 units of water in the middle gap.
+
+- Input: `arr[] = {3, 0, 2, 0, 4}`
+  - Output: 7
+  - Explanation: Structure is like below.
+    ```
+        |
+    |   |   |
+    |___|___|
+    ```
+    We can trap “3 units” of water between 3 and 2, “1 unit” on top of bar 2 and “3 units” between 2 and 4.
+
+- Input: `arr[] = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}`
+  - Output: 6
+  - Explanation: The structure is like below.
+    ```
+        |
+    |   | | |
+    |_|_|_|_|
+    ```
+    Trap “1 unit” between first 1 and 2, “4 units” between first 2 and 3 and “1 unit” between second last 1 and last 2.
+
+## Intuition
+
+The basic intuition of the problem is as follows:
+
+- An element of the array can store water if there are higher bars on the left and the right.
+- The amount of water to be stored in every position can be found by finding the heights of bars on the left and right sides.
+- The total amount of water stored is the summation of the water stored in each index.
+
+## Approach 1 (Brute Approach)
+
+This approach is the brute approach. The idea is to:
+
+- Traverse every array element and find the highest bars on the left and right sides.
+- Take the smaller of two heights. The difference between the smaller height and the height of the current element is the amount of water that can be stored in this array element.
+
+```cpp
+// C++ implementation of the approach
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to return the maximum
+// water that can be stored
+int maxWater(int arr[], int n)
+{
+    // To store the maximum water
+    // that can be stored
+    int res = 0;
+
+    // For every element of the array
+    for (int i = 1; i < n - 1; i++) {
+
+        // Find the maximum element on its left
+        int left = arr[i];
+        for (int j = 0; j < i; j++)
+            left = max(left, arr[j]);
+
+        // Find the maximum element on its right
+        int right = arr[i];
+        for (int j = i + 1; j < n; j++)
+            right = max(right, arr[j]);
+
+        // Update the maximum water
+        res = res + (min(left, right) - arr[i]);
+    }
+
+    return res;
+}
+
+// Driver code
+int main()
+{
+    int arr[] = { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    cout << maxWater(arr, n);
+
+    return 0;
+}
+```
+
+**Output**: 6
+
+**Time Complexity**: O(N^2). There are two nested loops traversing the array.
+
+**Space Complexity**: O(1). No extra space is required.
+
+## Approach 2 (Precalculation)
+
+This is an efficient solution based on the precalculation concept:
+
+- In the previous approach, for every element, we needed to calculate the highest element on the left and on the right.
+- To reduce the time complexity:
+  - For every element, we can precalculate and store the highest bar on the left and on the right (stored in arrays `left[]` and `right[]`).
+  - Then, iterate the array and use the precalculated values to find the amount of water stored in this index, which is the same as `(min(left[i], right[i]) – arr[i])`.
+
+```cpp
+// C++ program to find maximum amount of water that can
+// be trapped within given set of bars.
+#include <bits/stdc++.h>
+using namespace std;
+
+int findWater(int arr[], int n)
+{
+    // left[i] contains height of tallest bar to the
+    // left of i'th bar including itself
+    int left[n];
+
+    // Right [i] contains height of tallest bar to
+    // the right of ith bar including itself
+    int right[n];
+
+    // Initialize result
+    int water = 0;
+
+    // Fill left array
+    left[0] = arr[0];
+    for (int i = 1; i < n; i++)
+        left[i] = max(left[i - 1], arr[i]);
+
+    // Fill right array
+    right[n - 1] = arr[n - 1];
+    for (int i = n - 2; i >= 0; i--)
+        right[i] = max(right[i + 1], arr[i]);
+
+    // Calculate the accumulated water element by element
+    // consider the amount of water on i'th bar, the
+    // amount of water accumulated on this particular
+    // bar will be equal to min(left[i], right[i]) - arr[i]
+    // .
+    for (int i = 1; i < n - 1; i++) {
+        int var = min(left[i - 1], right[i + 1]);
+        if (var > arr[i]) {
+            water += var - arr[i];
+        }
+    }
+
+    return water;
+}
+
+// Driver program
+int main()
+{
+    int arr[] = { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+    cout << findWater(arr, n);
+    return 0;
+}
+```
+
+**Output**: 6
+
+**Time Complexity**: O(N). Only one traversal of the array is needed, so the time complexity is O(N).
+
+**Space Complexity**: O(N). Two extra arrays are needed, each of size N.
+
+---
+
 
